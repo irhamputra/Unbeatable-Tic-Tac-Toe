@@ -36,7 +36,7 @@ function startGame() {
 
 function turnClick(square) {
 		// console.log(square.target.id)
-		if (typeof origBoard[square.target.id] == 'number'){
+		if (typeof origBoard[square.target.id] == 'number') {
 				turn(square.target.id, huPlayer);
 				if (!checkTie()) turn(bestSpot(), aiPlayer);
 		}
@@ -79,7 +79,7 @@ function gameOver(gameWon) {
 				cells[i].removeEventListener('click', turnClick, false)
 		}
 		
-		declareWinner(gameWon.player === huPlayer ? 'You win': 'You lose')
+		declareWinner(gameWon.player === huPlayer ? 'You win' : 'You lose')
 }
 
 function declareWinner(who) {
@@ -93,11 +93,12 @@ function emptySquare() {
 }
 
 function bestSpot() {
-		return emptySquare()[0]
+		// MiniMax Algorithm
+		return minimax(origBoard, aiPlayer).index;
 }
 
 function checkTie() {
-		if (emptySquare().length === 0){
+		if (emptySquare().length === 0) {
 				for (let i = 0; i < cells.length; i++) {
 						cells[i].style.backgroundColor = 'lightgreen';
 						cells[i].removeEventListener('click', turnClick, false)
@@ -108,4 +109,59 @@ function checkTie() {
 		}
 		
 		return false
+}
+
+function minimax(newBoard, player) {
+		let availSpots = emptySquare(newBoard);
+		
+		if (checkWin(newBoard, player)) {
+				return {score: -10}
+		} else if (checkWin(newBoard, aiPlayer)) {
+				return {score: 10}
+		} else if (availSpots.length === 0) {
+				return {score: 0}
+		}
+		
+		let moves = [];
+		
+		for (let i = 0; i < availSpots.length; i++) {
+				let move = {};
+				
+				move.index = newBoard[availSpots[i]];
+				
+				newBoard[availSpots[i]] = player;
+				
+				if (player === aiPlayer) {
+						let result = minimax(newBoard, huPlayer);
+						move.score = result.score;
+				} else {
+						let result = minimax(newBoard, aiPlayer);
+						move.score = result.score;
+				}
+				
+				newBoard[availSpots[i]] = move.index;
+				
+				moves.push(move)
+		}
+		
+		let bestMove;
+		if (player === aiPlayer) {
+				let bestScore = -10000;
+				for (let i = 0; i < moves.length; i++) {
+						if (moves[i].score > bestScore) {
+								bestScore = moves[i].score;
+								bestMove = i;
+						}
+				}
+		} else {
+				let bestScore = 10000;
+				for (let i = 0; i < moves.length; i++) {
+						if (moves[i].score < bestScore) {
+								bestScore = moves[i].score;
+								bestMove = i;
+						}
+				}
+		}
+		
+		return moves[bestMove]
 }

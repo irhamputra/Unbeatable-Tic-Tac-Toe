@@ -1,5 +1,6 @@
 body {
     text-align: center;
+    margin: 100px auto;
 }
 
 .wrapper {
@@ -11,7 +12,7 @@ body {
 .endgame {
     display: none;
     position: absolute;
-    bottom: 21%;
+    top: 40%;
     width: 200px;
     background-color: red;
     color: white;
