@@ -1,6 +1,6 @@
 body {
     text-align: center;
-    margin: 100px auto;
+    margin: 20px auto;
 }
 
 .wrapper {
@@ -12,7 +12,7 @@ body {
 .endgame {
     display: none;
     position: absolute;
-    top: 40%;
+    top: 15%;
     width: 200px;
     background-color: red;
     color: white;
@@ -24,12 +24,12 @@ table {
 
 td {
     border: 2px solid black;
-    height: 200px;
-    width: 200px;
+    height: 120px;
+    width: 120px;
     text-align: center;
     vertical-align: middle;
     font-family: "Comic Sans MS", cursive, sans-serif;
-    font-size: 120px;
+    font-size: 70px;
     cursor: pointer;
 }
 
